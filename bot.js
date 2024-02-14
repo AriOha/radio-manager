@@ -7,6 +7,8 @@ const {
   AudioPlayerStatus,
 } = require('@discordjs/voice');
 const { generateDependencyReport } = require('@discordjs/voice');
+
+const { loadStations, saveStations } = require('./stationManager');
 console.log(generateDependencyReport());
 
 const client = new Client({
@@ -19,7 +21,7 @@ const client = new Client({
 });
 
 // In-memory storage for radio stations
-let radioStations = {};
+let radioStations = loadStations();
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -51,6 +53,7 @@ client.on('messageCreate', async (message) => {
       const [name, ...urlParts] = args;
       const url = urlParts.join(' ');
       radioStations[name] = url;
+      saveStations(radioStations);
       message.reply(`Radio station "${name}" added.`);
       break;
 
@@ -58,6 +61,7 @@ client.on('messageCreate', async (message) => {
       const stationName = args.join(' ');
       if (radioStations[stationName]) {
         delete radioStations[stationName];
+        saveStations(radioStations);
         message.reply(`Radio station "${stationName}" deleted.`);
       } else {
         message.reply(`Radio station "${stationName}" not found.`);
@@ -69,7 +73,7 @@ client.on('messageCreate', async (message) => {
         message.reply('No radio stations available.');
       } else {
         const list = Object.entries(radioStations)
-          .map(([name, url]) => `- ${name}: ${url}`)
+          .map(([name, url]) => `- ${name}`)
           .join('\n');
         message.reply(`Radio Stations:\n${list}`);
       }
