@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 const {
   joinVoiceChannel,
@@ -118,3 +119,4 @@ client.on('messageCreate', async (message) => {
   }
 });
 
+client.login(process.env.TOKEN);
