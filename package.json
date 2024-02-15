@@ -9,6 +9,12 @@
   },
   "author": "Ariel",
   "license": "ISC",
+  "nodemonConfig": {
+    "ignore": [
+      "*.json"
+    ],
+    "delay": 2500
+  },
   "dependencies": {
     "@discordjs/opus": "^0.9.0",
     "@discordjs/voice": "^0.16.1",
@@ -16,7 +22,9 @@
     "dotenv": "^16.4.4",
     "ffmpeg-static": "^5.2.0",
     "libsodium-wrappers": "^0.7.13",
-    "nodemon": "^3.0.3",
     "ytdl-core": "^4.11.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
   }
 }
