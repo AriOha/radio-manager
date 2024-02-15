@@ -5,13 +5,15 @@ const stationsFilePath = path.join(__dirname, 'stations.json');
 const loadStations = () => {
   if (fs.existsSync(stationsFilePath)) {
     const rawData = fs.readFileSync(stationsFilePath);
-    return JSON.parse(rawData);
+    const data = JSON.parse(rawData);
+    return data.stations;
   }
-  return {};
+  return [];
 };
 
 const saveStations = (stations) => {
-  fs.writeFileSync(stationsFilePath, JSON.stringify(stations, null, 2));
+  const data = { stations };
+  fs.writeFileSync(stationsFilePath, JSON.stringify(data, null, 2));
 };
 
 module.exports = { loadStations, saveStations };
